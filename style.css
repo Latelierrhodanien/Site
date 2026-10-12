@@ -175,3 +175,9 @@ footer .logo-mark{width:44px}
 .cta-band .wrap{display:grid;gap:18px;justify-items:center}
 .cta-band .lead{margin-inline:auto}
 nav.links a[aria-current="page"]{color:var(--ink)}
+.teaser{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.teaser a{display:block;aspect-ratio:3/4;border-radius:10px;overflow:hidden}
+.teaser img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.teaser a:hover img{transform:scale(1.04)}
+.page-intro{padding-block:clamp(40px,6vw,72px) clamp(24px,3vw,36px)}
+.page-intro h1{font-size:clamp(2.4rem,5.4vw,3.8rem)}
