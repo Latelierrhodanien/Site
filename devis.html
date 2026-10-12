@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demander un devis · L'Atelier Rhodanien</title>
+<meta name="description" content="Demandez un devis gratuit pour vos gobelets, pichets et créations gravées au laser personnalisés. Maquette validée avant production.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Karla:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="img/logo.png">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="L'Atelier Rhodanien, accueil">
+      <i class="logo-mark" aria-hidden="true"></i>
+      <span>L'Atelier Rhodanien<small>Auvergne-Rhône-Alpes</small></span>
+    </a>
+    <nav class="links" aria-label="Navigation principale">
+      <a href="./#savoir-faire">Savoir-faire</a>
+      <a href="./#realisations">Réalisations</a>
+      <a href="./#etapes">Comment ça marche</a>
+      <a href="./#faq">FAQ</a>
+      <a class="btn sm" href="devis.html" aria-current="page">Demander un devis</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="devis" class="devis page-devis">
+    <div class="wrap devis-grid">
+      <div>
+        <div class="sec-head" style="margin-bottom:0">
+          <p class="eyebrow">Devis gratuit</p>
+          <h1 style="font-size:clamp(2.4rem,5.4vw,3.8rem)">Parlons de votre projet</h1>
+          <p class="lead">Quelques informations suffisent pour préparer votre maquette et votre devis.</p>
+          <ul class="reassure">
+            <li>Devis gratuit et sans engagement</li>
+            <li>Maquette envoyée et validée avant toute production</li>
+            <li>Prix dégressifs selon les quantités</li>
+            <li>Délai court possible selon votre demande</li>
+          </ul>
+        </div>
+        <dl class="contact">
+          <div><dt>Email</dt><dd><a href="mailto:latelierrhodanien@gmail.com">latelierrhodanien@gmail.com</a></dd></div>
+          <div><dt>Téléphone</dt><dd><a href="tel:+33613434742">06 13 43 47 42</a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/latelier_rhodanien/" target="_blank" rel="noopener">@latelier_rhodanien</a></dd></div>
+          <div><dt>Atelier</dt><dd>Décines-Charpieu, Auvergne-Rhône-Alpes</dd></div>
+        </dl>
+      </div>
+
+      <form class="card" id="quote" novalidate>
+        <fieldset>
+          <legend>Ce qui vous intéresse</legend>
+          <div class="opts">
+            <label><input type="checkbox" id="p-gob" name="produit" value="Gobelets"> Gobelets</label>
+            <label><input type="checkbox" id="p-pic" name="produit" value="Pichets"> Pichets</label>
+            <label><input type="checkbox" id="p-grav" name="produit" value="Gravure laser"> Gravure laser</label>
+            <label><input type="checkbox" id="p-aut" name="produit" value="Autre"> Autre</label>
+          </div>
+        </fieldset>
+        <div class="row">
+          <label for="f-event">Type d'événement
+            <select id="f-event" name="event">
+              <option>Mariage</option><option>Anniversaire</option><option>Entreprise / CE</option><option>Bar / restaurant</option><option>Association</option><option>Autre</option>
+            </select></label>
+          <label for="f-qty">Quantité estimée<input id="f-qty" name="qty" type="text" inputmode="numeric" placeholder="ex. 120"></label>
+        </div>
+        <div class="row">
+          <label for="f-date">Date de l'événement<input id="f-date" name="date" type="date"></label>
+          <label for="f-remise">Remise
+            <select id="f-remise" name="remise"><option>Main propre (Décines et alentours)</option><option>Livraison en France</option><option>Je ne sais pas encore</option></select></label>
+        </div>
+        <label for="f-msg">Votre projet<textarea id="f-msg" name="msg" placeholder="Prénoms, logo, couleurs, idées de texte…"></textarea></label>
+        <div class="row">
+          <label for="f-name">Nom<input id="f-name" name="name" type="text" autocomplete="name" required></label>
+          <label for="f-contact">Email ou téléphone<input id="f-contact" name="contact" type="text" autocomplete="email" required></label>
+        </div>
+        <p class="note" id="f-err" role="alert" hidden>Indiquez votre nom et un moyen de vous recontacter.</p>
+        <button class="btn" type="submit">Préparer ma demande</button>
+        <div class="result" id="result" hidden>
+          <p><strong>Votre demande est prête.</strong> Envoyez-la par email à latelierrhodanien@gmail.com ou par message Instagram.</p>
+          <pre id="out"></pre>
+          <div class="acts">
+            <button class="btn sm" type="button" id="copy">Copier le texte</button>
+            <a class="btn sm ghost" id="mail" href="#">Ouvrir ma messagerie</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div style="display:flex;align-items:center;gap:14px"><i class="logo-mark" aria-hidden="true"></i><span>L'Atelier Rhodanien · Micro-entreprise · Décines-Charpieu</span></div>
+    <span>Gravure laser & gobelets personnalisés en Auvergne-Rhône-Alpes</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var f=document.getElementById('quote'),res=document.getElementById('result'),out=document.getElementById('out'),err=document.getElementById('f-err');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=function(id){return document.getElementById(id).value.trim()};
+    if(!v('f-name')||!v('f-contact')){err.hidden=false;return}
+    err.hidden=true;
+    var prods=[].slice.call(f.querySelectorAll('input[name=produit]:checked')).map(function(i){return i.value}).join(', ')||'À préciser';
+    var d=v('f-date');if(d){var p=d.split('-');d=p[2]+'/'+p[1]+'/'+p[0]}
+    var txt='Bonjour,\n\nJe souhaite un devis pour :\n- Produits : '+prods+'\n- Événement : '+v('f-event')+'\n- Quantité : '+(v('f-qty')||'À préciser')+'\n- Date : '+(d||'À préciser')+'\n- Remise : '+v('f-remise')+'\n\nMon projet :\n'+(v('f-msg')||'—')+'\n\n'+v('f-name')+'\n'+v('f-contact');
+    out.textContent=txt;
+    document.getElementById('mail').href='mailto:latelierrhodanien@gmail.com?subject='+encodeURIComponent('Demande de devis – '+v('f-event'))+'&body='+encodeURIComponent(txt);
+    res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  document.getElementById('copy').addEventListener('click',function(){
+    var b=this,t=out.textContent;
+    var sel=function(){var r=document.createRange();r.selectNodeContents(out);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Texte sélectionné'};
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copié'},sel)}catch(x){sel()}
+  });
+})();
+</script>
+</body>
+</html>
