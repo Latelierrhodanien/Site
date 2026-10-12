@@ -136,6 +136,9 @@
       if(x.ok&&String(x.j.success)==='true'){
         [].slice.call(f.children).forEach(function(c){if(c!==res)c.hidden=true});
         res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }else if(/activat/i.test(String(x.j.message||''))){
+        btn.disabled=false;btn.textContent='Envoyer ma demande';
+        fail("Le formulaire n'est pas encore activé : un email d'activation de FormSubmit vient d'être envoyé à latelierrhodanien@gmail.com. Cliquez sur « Activate Form », puis renvoyez la demande.");
       }else{throw new Error()}
     }).catch(function(){
       btn.disabled=false;btn.textContent='Envoyer ma demande';
