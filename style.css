@@ -240,3 +240,11 @@ summary:hover{color:var(--copper)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.btn::before{display:none}}
 @media (hover:none){.gallery figure:hover img,.line:hover{transform:none}}
+
+/* Mentions légales */
+.legal{max-width:760px;display:grid;gap:14px}
+.legal h2{font-size:1.6rem;margin-top:22px}
+.legal h2:first-child{margin-top:0}
+.legal p{color:var(--muted)}
+.legal-link{color:var(--muted);text-underline-offset:3px}
+.legal-link:hover{color:var(--copper)}
