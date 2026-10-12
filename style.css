@@ -1,3 +1,4 @@
+[hidden]{display:none!important}
 /* Layout: "givré & cuivre" — frosted-glass panels over warm workshop photos, copper as the single accent, Cinzel caps echoing the logo */
 :root{
   --bg:#ECEBE8; --surface:#F8F7F5; --frost:rgba(248,247,245,.72);
@@ -183,3 +184,6 @@ nav.links a[aria-current="page"]{color:var(--ink)}
 .teaser a:hover img{transform:scale(1.04)}
 .page-intro{padding-block:clamp(40px,6vw,72px) clamp(24px,3vw,36px)}
 .page-intro h1{font-size:clamp(2.4rem,5.4vw,3.8rem)}
+
+.btn:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:none}
+#f-err{color:var(--copper);font-weight:700}

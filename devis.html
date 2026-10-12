@@ -76,17 +76,14 @@
         <label for="f-msg">Votre projet<textarea id="f-msg" name="msg" placeholder="Prénoms, logo, couleurs, idées de texte…"></textarea></label>
         <div class="row">
           <label for="f-name">Nom<input id="f-name" name="name" type="text" autocomplete="name" required></label>
-          <label for="f-contact">Email ou téléphone<input id="f-contact" name="contact" type="text" autocomplete="email" required></label>
+          <label for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
         </div>
-        <p class="note" id="f-err" role="alert" hidden>Indiquez votre nom et un moyen de vous recontacter.</p>
-        <button class="btn" type="submit">Préparer ma demande</button>
+        <label for="f-tel">Téléphone (facultatif)<input id="f-tel" name="tel" type="tel" autocomplete="tel"></label>
+        <input type="text" name="_honey" id="f-honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <p class="note" id="f-err" role="alert" hidden></p>
+        <button class="btn" type="submit" id="f-send">Envoyer ma demande</button>
         <div class="result" id="result" hidden>
-          <p><strong>Votre demande est prête.</strong> Envoyez-la par email à latelierrhodanien@gmail.com ou par message Instagram.</p>
-          <pre id="out"></pre>
-          <div class="acts">
-            <button class="btn sm" type="button" id="copy">Copier le texte</button>
-            <a class="btn sm ghost" id="mail" href="#">Ouvrir ma messagerie</a>
-          </div>
+          <p><strong>Merci, votre demande est bien envoyée.</strong> Je vous réponds rapidement avec une maquette et un devis.</p>
         </div>
       </form>
     </div>
@@ -103,23 +100,47 @@
 
 <script>
 (function(){
-  var f=document.getElementById('quote'),res=document.getElementById('result'),out=document.getElementById('out'),err=document.getElementById('f-err');
+  var f=document.getElementById('quote'),res=document.getElementById('result'),err=document.getElementById('f-err'),btn=document.getElementById('f-send');
+  var v=function(id){return document.getElementById(id).value.trim()};
+  var fail=function(m){err.textContent=m;err.hidden=false};
   f.addEventListener('submit',function(e){
     e.preventDefault();
-    var v=function(id){return document.getElementById(id).value.trim()};
-    if(!v('f-name')||!v('f-contact')){err.hidden=false;return}
+    if(v('f-honey'))return;
+    if(!v('f-name')||!v('f-email')){fail('Indiquez votre nom et votre email pour que je puisse vous répondre.');return}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('f-email'))){fail('Cette adresse email semble incomplète. Vérifiez-la.');return}
     err.hidden=true;
     var prods=[].slice.call(f.querySelectorAll('input[name=produit]:checked')).map(function(i){return i.value}).join(', ')||'À préciser';
     var d=v('f-date');if(d){var p=d.split('-');d=p[2]+'/'+p[1]+'/'+p[0]}
-    var txt='Bonjour,\n\nJe souhaite un devis pour :\n- Produits : '+prods+'\n- Événement : '+v('f-event')+'\n- Quantité : '+(v('f-qty')||'À préciser')+'\n- Date : '+(d||'À préciser')+'\n- Remise : '+v('f-remise')+'\n\nMon projet :\n'+(v('f-msg')||'—')+'\n\n'+v('f-name')+'\n'+v('f-contact');
-    out.textContent=txt;
-    document.getElementById('mail').href='mailto:latelierrhodanien@gmail.com?subject='+encodeURIComponent('Demande de devis – '+v('f-event'))+'&body='+encodeURIComponent(txt);
-    res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'nearest'});
-  });
-  document.getElementById('copy').addEventListener('click',function(){
-    var b=this,t=out.textContent;
-    var sel=function(){var r=document.createRange();r.selectNodeContents(out);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Texte sélectionné'};
-    try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copié'},sel)}catch(x){sel()}
+    var data={
+      'Nom':v('f-name'),
+      'Email':v('f-email'),
+      'Téléphone':v('f-tel')||'Non renseigné',
+      'Produits':prods,
+      'Événement':v('f-event'),
+      'Quantité':v('f-qty')||'À préciser',
+      "Date de l'événement":d||'À préciser',
+      'Remise':v('f-remise'),
+      'Projet':v('f-msg')||'—',
+      '_subject':'Nouvelle demande de devis · '+v('f-event')+' · '+v('f-name'),
+      '_replyto':v('f-email'),
+      '_template':'table',
+      '_captcha':'false'
+    };
+    btn.disabled=true;btn.textContent='Envoi en cours…';
+    fetch('https://formsubmit.co/ajax/latelierrhodanien@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(data)
+    }).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+    .then(function(x){
+      if(x.ok&&String(x.j.success)==='true'){
+        [].slice.call(f.children).forEach(function(c){if(c!==res)c.hidden=true});
+        res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }else{throw new Error()}
+    }).catch(function(){
+      btn.disabled=false;btn.textContent='Envoyer ma demande';
+      fail("L'envoi n'a pas abouti. Réessayez dans un instant, ou écrivez-moi directement à latelierrhodanien@gmail.com.");
+    });
   });
 })();
 </script>
